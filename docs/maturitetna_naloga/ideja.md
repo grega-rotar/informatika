@@ -34,10 +34,10 @@
     - MySQL
     - InfluxDB
 #### Funkcionalnosti
+- upravljanje rolete
 - prijava uporabnika
 - vpogled v naprave, ki si jih uporabnik lasti
 - posodebitev naprave
-- upravljanje rolet preko spletne aplikacije
 - vpogled v zgodovino upravljanja rolet
 - možnost programiranja rolet v naprej
     - npr. da se zjutraj ob 8h dvignejo in zvečer spustijo
