@@ -10,13 +10,12 @@ Projekt omogoča daljinsko upravljanje rolet prek spletnega vmesnika. S pomočjo
 
 #### Potrebne komponente za krmilnik
 - **ESP32 mikrokrmilnik**: Upravljalna enota za krmiljenje rolet in komunikacijo z WiFi ter MQTT.
-- **Logična vezja za PCB**: Povezava mikrokrmilnika z ostalimi komponentami.
 - **Triak (BTA06)**: Krmiljenje vklopa in izklopa motorja.
 - **Napajalnik**: Zagotavlja napajanje za ESP32 in motor.
 
 #### Potrebne komponente za nadzor
 - **MQTT posredniški strežnik (broker)**: Omogoča komunikacijo med krmilnikom in uporabnikom.
-- **Strežnik za podatkovno bazo**: Shranjuje vse ukaze in beleži delovanje sistema.
+- **Strežnik za podatkovno bazo in spletno stran**: Shranjuje vse ukaze in beleži delovanje sistema ter gosti spletno stran
 - **Podatkovna baza**: Beleži zgodovino ukazov in stanja sistema.
 
 ### Krmilnik za rolete
