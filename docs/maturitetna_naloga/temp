@@ -1,0 +1,46 @@
+# Krmiljenje električnega motorja za rolete preko spletnega vmesnika
+
+## Opis projekta
+
+### 1. Načrtovanje in izdelava krmilnika za rolete
+
+- **Cilj**: Razviti robusten in zanesljiv krmilnik, ki omogoča natančno upravljanje električnega motorja rolete.
+- **Komponente**:
+  - Mikrokrmilnik (npr. ESP32 ali Arduino)
+  - Motorni pogon
+  - Senzorji položaja (če je potrebno za natančno merjenje odprtja/zapiranja)
+  - Napajanje in zaščitne komponente
+- **Funkcionalnosti**:
+  - Natančna kontrola hitrosti in smeri motorja
+  - Možnost zaznavanja in prilagajanja položaja rolete
+
+### 2. Programiranje krmilnika rolet
+
+- **Cilj**: Razviti programsko opremo za upravljanje krmilnika z upoštevanjem zahtev glede delovanja motorja.
+- **Funkcionalnosti**:
+  - Implementacija PID regulatorja za natančno upravljanje položaja rolete
+  - Razviti komunikacijski protokol za interakcijo s spletno aplikacijo
+  - Zagotavljanje varnostnih mehanizmov za zaščito motorja in krmilnika pred morebitnimi napakami
+
+### 3. Povezava krmilnika z WiFi omrežjem in posredniškim strežnikom
+
+- **Cilj**: Omogočiti daljinsko upravljanje krmilnika preko spletnega vmesnika.
+- **Komponente**:
+  - Integracija WiFi modula (npr. ESP32 ima vgrajen WiFi)
+  - Konfiguracija omrežnih povezav in zagotavljanje stabilne povezave z internetom
+  - Uporaba MQTT ali HTTP za komunikacijo s posredniškim strežnikom
+- **Funkcionalnosti**:
+  - Zanesljiva povezava s posredniškim strežnikom za prenos ukazov in prejemanje povratnih informacij
+  - Spremljanje stanja krmilnika v realnem času
+
+### 4. Razvoj spletne aplikacije za upravljanje rolet
+
+- **Cilj**: Ustvariti uporabniku prijazen spletni vmesnik za upravljanje rolet.
+- **Tehnologije**:
+  - Frontend: HTML, CSS, JavaScript (npr. React ali Vue.js za dinamične komponente)
+  - Backend: Node.js ali Python (npr. Flask ali Django) za obdelavo zahtev in komunikacijo s krmilnikom
+- **Funkcionalnosti**:
+  - Spletni vmesnik za enostavno odpiranje, zapiranje in nastavitev rolete
+  - Vizualizacija trenutnega stanja rolete
+  - Upravljanje s časovnimi nalogami za avtomatsko odpiranje/zapiranje
+  - Obveščanje uporabnika o napakah ali težavah s sistemom
