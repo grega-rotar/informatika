@@ -9,11 +9,7 @@ static const char *TAG = "prov";
 String prov_pop = PROV_POP;
 String prov_device_name = PROV_DEVICE_NAME;
 
-const char *prov_service_key = NULL; // Password for SofAP method
-// Should provisioning data reset on reboot?
-// does not make sense
-// FIXME: should be safely removed
-bool prov_reset = false;
+const char *prov_service_key = NULL; // Password for SofAP method, NOT USED
 
 class ProvDetails {
       private:
@@ -57,12 +53,12 @@ void getProvDetails(ProvDetails *prov) {
         uint32_t pop = 0;
         err = nvs_get_u32(nvs_handle, "pop", &pop);
         logAndCheckErr(err);
-        ppop = PROV_PREFIX + String(pop, HEX);
+        prov_pop = PROV_PREFIX + String(pop, HEX);
 
         uint32_t device_name = 0;
         err = nvs_get_u32(nvs_handle, "dn", &device_name);
         logAndCheckErr(err);
-        pdevice_name = String(device_name, HEX);
+        prov_device_name = String(device_name, HEX);
 
         nvs_close(nvs_handle);
 }
@@ -101,12 +97,12 @@ void initalizeProvDetails() {
 
         // checking if prov details have been created and saved
         if (getAndCheckProvDetails(prov_pop, prov_device_name)) {
+                // prov details exist
                 ESP_LOGI(TAG, "prov details exist", "");
                 return;
         }
 
         // creating new prov credentials
-        // creating
         esp_err_t err = nvs_flash_init();
         if (err == ESP_ERR_NVS_NO_FREE_PAGES ||
             err == ESP_ERR_NVS_NEW_VERSION_FOUND) {
@@ -187,10 +183,13 @@ void SysProvEvent(arduino_event_t *sys_event) {
 }
 
 void setupProvisioning() {
-
+        bool isProvisioned = false;
+        esp_err_t error = wifi_prov_mgr_is_provisioned(&isProvisioned);
+        ESP_LOGE(TAG, "Is provisioned err: %s", esp_err_to_name(error));
+        ESP_LOGE(TAG, "Is provisioned err: %b", isProvisioned);
         initalizeProvDetails();
 
-        // assing WiFi event function
+        // assigning WiFi event function
         WiFi.onEvent(SysProvEvent);
 
         Serial.println("Begin Provisioning using BLE");
@@ -200,7 +199,7 @@ void setupProvisioning() {
         WiFiProv.beginProvision(
             WIFI_PROV_SCHEME_BLE, WIFI_PROV_SCHEME_HANDLER_FREE_BTDM,
             WIFI_PROV_SECURITY_1, prov_pop.c_str(), prov_device_name.c_str(),
-            prov_service_key, uuid, prov_reset);
+            prov_service_key, uuid, false);
         log_d("ble qr");
         WiFiProv.printQR(prov_device_name.c_str(), prov_pop.c_str(), "ble");
 }

@@ -1,0 +1,17 @@
+BasedOnStyle: LLVM
+IndentWidth: 8
+TabWidth: 8
+UseTab: Never
+BreakBeforeBraces: Attach
+AllowShortBlocksOnASingleLine: Empty
+AllowShortFunctionsOnASingleLine: InlineOnly
+ColumnLimit: 80
+MaxEmptyLinesToKeep: 1
+IndentCaseLabels: true
+KeepEmptyLinesAtTheStartOfBlocks: false
+PenaltyBreakBeforeFirstCallParameter: 19
+PenaltyBreakComment: 300
+PenaltyExcessCharacter: 100
+SpaceAfterCStyleCast: true
+SpaceBeforeParens: ControlStatements
+SpaceInParentheses: false
