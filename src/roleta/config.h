@@ -10,6 +10,7 @@
 
 // Event handler declaration
 void SysProvEvent(arduino_event_t *sys_event);
-void setupProvisioning();
+void init_provisoning();
+void init_mqtt();
 
 #endif // CONFIG_H

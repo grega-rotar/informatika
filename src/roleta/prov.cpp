@@ -6,13 +6,7 @@
 
 // tag for log
 static const char *TAG = "prov";
-
-String prov_pop = PROV_POP;
-String prov_device_name = PROV_DEVICE_NAME;
-
-const char *prov_service_key = NULL; // Password for SofAP method, NOT USED
-
-typedef void (*SetString)(string);
+static const char *prov_service_key = NULL; // Password for SofAP method, NOT USED
 
 class ProvDetails {
       private:
@@ -32,7 +26,7 @@ class ProvDetails {
                 return buffer;
         }
 
-        void setDeviceName(String d) { device_name = d; }
+        void setDeviceName(String d) { device_name = PROV_PREFIX + d; }
         char *getDeviceName() {
                 unsigned char bufferSize = device_name.length() + 1;
                 char *buffer = new char[bufferSize];
@@ -46,14 +40,14 @@ ProvDetails provDetails(PROV_POP, PROV_DEVICE_NAME);
 
 // function to log errors
 // DEPRECATED: it's not so useful
-bool log_and_check_err(esp_err_t err) {
+static bool log_and_check_err(esp_err_t err) {
         if (err == ESP_OK)
                 return false;
         ESP_LOGE(TAG, "NVS error: %s", esp_err_to_name(err));
         return true;
 }
 
-void init_nvs(esp_err_t *err) {
+static void init_nvs(esp_err_t *err) {
         *err = nvs_flash_init();
 
         // check the initalization errors
@@ -72,17 +66,17 @@ void init_nvs(esp_err_t *err) {
 }
 
 // FIXME: add option to open as READ_ONLY
-void open_nvs_namespace(const char *namespace, nvs_handle_t *nvs_handle,
+static void open_nvs_namespace(const char *nvs_namespace, nvs_handle_t *nvs_handle,
                         esp_err_t *err) {
-        *err = nvs_open(namespace, NVS_READWRITE, nvs_handle);
+        *err = nvs_open(nvs_namespace, NVS_READWRITE, nvs_handle);
         if (*err != ESP_OK) {
                 ESP_LOGE(TAG, "nvs_open error: %s", esp_err_to_name(*err));
-                nvs_close(nvs_handle);
+                nvs_close(*nvs_handle);
                 return;
         }
 }
 
-void init_prov_details(ProvDetails *pProvDetails) {
+static void init_prov_details(ProvDetails *pProvDetails) {
         esp_err_t err;
         init_nvs(&err);
 
@@ -105,7 +99,7 @@ void init_prov_details(ProvDetails *pProvDetails) {
                 nvs_close(nvs_handle);
                 return;
         }
-        pProvDetails->setDeviceName(PROV_PREFIX + String(device_name, HEX));
+        pProvDetails->setDeviceName(String(device_name, HEX));
 
         // Commit written value to NVS storage
         err = nvs_commit(nvs_handle);
@@ -116,7 +110,7 @@ void init_prov_details(ProvDetails *pProvDetails) {
         return;
 }
 
-void handle_prov_nvs_err(esp_err_t err, ProvDetails *pProvDetails) {
+static void handle_prov_nvs_err(esp_err_t err, ProvDetails *pProvDetails) {
         if (err == ESP_OK) {
                 return;
         };
@@ -128,7 +122,7 @@ void handle_prov_nvs_err(esp_err_t err, ProvDetails *pProvDetails) {
         }
 }
 
-void ensure_prov_details(ProvDetails *pProvDetails) {
+static void ensure_prov_details(ProvDetails *pProvDetails) {
         // FIXME: add error handling
         // Attempt to initalize the NVS (Non-Voltaile Storage) flash
         esp_err_t err;
@@ -205,7 +199,7 @@ void SysProvEvent(arduino_event_t *sys_event) {
         }
 }
 
-void setupProvisioning() {
+void init_provisoning() {
         ensure_prov_details(&provDetails);
 
         // assigning WiFi event function

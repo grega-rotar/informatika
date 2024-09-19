@@ -10,11 +10,11 @@ static const char* TAG = "roleta.ino";
 void setup() {
         ESP_LOGI(TAG, "starting");
 
-        setupProvisioning();
+        init_provisoning();
         // TODO: WiFi & MQTT FreeRTOS task to keep alive
 }
 
 void loop() {
-        Serial.println("loop");
-        delay(500);
+        init_mqtt();
+        delay(1000);
 }
